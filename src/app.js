@@ -5,7 +5,8 @@ const cors = require('cors')
 const helmet = require('helmet')
 const { NODE_ENV } = require('./config')
 const app = express()
-
+const notesRouter =require('./notes/notes-router')
+const foldersRouter = require('./folders/folders-router')
 const morganOption = (NODE_ENV === 'production')
   ? 'tiny'
   : 'common';
@@ -13,11 +14,11 @@ const morganOption = (NODE_ENV === 'production')
 app.use(morgan(morganOption))
 app.use(helmet())
 app.use(cors())
+app.use(notesRouter)
+app.use(foldersRouter)
 
 
-app.get('/', (req, res) => {
-  res.send('Hello, boilerplate!')
-})
+
 
 app.use(function errorHandler(error, req, res, next) {
   let response   
@@ -30,6 +31,6 @@ app.use(function errorHandler(error, req, res, next) {
     res.status(500).json(response)
   })
   
-    module.exports = app
+
 
 module.exports = app
