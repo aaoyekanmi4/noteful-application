@@ -16,6 +16,7 @@ foldersRouter
   FoldersService.getAllFolders(req.app.get('db'))
     .then(folders => {
       res.json(folders.map(serializeFolder))
+      console.log(folders)
     })
     .catch(next)
 })

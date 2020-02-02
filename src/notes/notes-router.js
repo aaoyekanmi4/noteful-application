@@ -11,7 +11,7 @@ const serializeNote= note=> ({
   title: note.title,
   modified: note.modified,
   content: note.content,
-  folderId: note.folderId
+  folderid: note.folderid
 })
 
 notesRouter
@@ -20,10 +20,11 @@ notesRouter
   NotesService.getAllNotes(req.app.get('db'))
     .then(notes => {
       res.json(notes.map(serializeNote))
-    })
+      console.log(notes)    })
     .catch(next)
 })
 .post(bodyParser, (req, res, next) => { 
+  console.log(req.body)
   const {title, folderid, content, modified} = req.body;
   const newNote = { title, content, modified, folderid }
   
@@ -66,14 +67,15 @@ notesRouter
   res.json(serializeNote(res.note))
 })
 .delete((req, res, next) => {
- 
+  
   const { id } = req.params
+
 NotesService.deleteNote(
     req.app.get('db'),
     id
   )
-    .then(numRowsAffected => {
-      res.status(204).end()
+    .then(() => {
+      res.status(204).json()
     })
     .catch(next)
 })
